@@ -44,6 +44,7 @@ The dataset used is `Salary_dataset.csv`, which contains two columns:
 - ✅ Predict salary for any given years of experience
 - ✅ Visualize results with scatter plots and regression line
 - ✅ Calculate Mean Squared Error (MSE) for model evaluation
+- ✅ Random prediction generator (1-20 years experience)
 - ✅ No dependency on high-level ML libraries for training
 
 ## Installation
@@ -51,8 +52,8 @@ The dataset used is `Salary_dataset.csv`, which contains two columns:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/KaunAnkit/linear-regression-gradient-descent.git
-cd linear-regression-gradient-descent
+git clone https://github.com/KaunAnkit/salary-predictor.git
+cd salary-predictor
 ```
 
 ### 2. Install dependencies
@@ -66,23 +67,22 @@ pip install -r requirements.txt
 - `numpy` - For numerical computations
 - `pandas` - For data manipulation
 - `matplotlib` - For data visualization
-- `scikit-learn` - For data preprocessing
 
 ## How to Run
 
 Run the main script:
 
 ```bash
-python src/linear_regression.py
+python linear_regression.py
 ```
 
 ### What happens when you run:
 
 1. ✅ Loads and preprocesses the dataset
-2. ✅ Trains the model using gradient descent
-3. ✅ Plots the regression line over actual data
-4. ✅ Prints the Mean Squared Error (MSE)
-5. ✅ Predicts salary for sample years of experience
+2. ✅ Trains the model using gradient descent (1400 epochs)
+3. ✅ Prints trained parameters (w, b) and MSE
+4. ✅ Plots the regression line over actual data
+5. ✅ Predicts salary for a random year of experience (1-20 years)
 
 ## Folder Structure
 
@@ -92,8 +92,7 @@ Salary-Predictor/
 ├── data/
 │   └── Salary_dataset.csv       # Dataset containing experience and salary data
 │
-├── src/
-│   └── linear_regression.py     # Main Python script with model implementation
+├── linear_regression.py         # Main Python script with model implementation
 │
 ├── README.md                    # Project documentation (this file)
 ├── requirements.txt             # Python dependencies
@@ -102,70 +101,117 @@ Salary-Predictor/
 
 ## Implementation Details
 
-### Gradient Descent Formula
+### Model Parameters
 
-The model parameters are updated using the following formulas:
+```python
+w = 0                    # Initial weight (slope)
+b = 0                    # Initial bias (intercept)
+learning_rate = 0.01     # Learning rate
+epochs = 1400            # Number of training iterations
+```
 
-**Weight Update:**
-```
-w := w - α * (2/n) * Σ[xi * (yi - (w*xi + b))]
+### Gradient Descent Algorithm
+
+The model parameters are updated using gradient descent:
+
+**Step 1: Make predictions**
+```python
+y_pred = w * x + b
 ```
 
-**Bias Update:**
+**Step 2: Calculate error**
+```python
+error = y - y_pred
 ```
-b := b - α * (2/n) * Σ[(yi - (w*xi + b))]
+
+**Step 3: Calculate gradients**
+```python
+dw = (-2/n) * np.sum(x * error)
+db = (-2/n) * np.sum(error)
+```
+
+**Step 4: Update parameters**
+```python
+w -= learning_rate * dw
+b -= learning_rate * db
 ```
 
 Where:
 - `w` – weight (slope of the regression line)
 - `b` – bias (y-intercept)
-- `α` – learning rate (step size for gradient descent)
+- `learning_rate` – step size for gradient descent (0.01)
 - `n` – number of training samples
-- `xi` – input feature (years of experience)
-- `yi` – actual output (salary)
+- `x` – input feature (years of experience)
+- `y` – actual output (salary)
 
 ### Mean Squared Error (MSE)
 
 The model's performance is evaluated using MSE:
 
-```
-MSE = (1/n) * Σ(yi - ŷi)²
+```python
+MSE = np.mean((y - y_pred)**2)
 ```
 
-Where `ŷi` is the predicted value.
+### Training Loop
+
+```python
+for _ in range(epochs):
+    y_pred = w * x + b
+    error = y - y_pred
+    dw = (-2/n) * np.sum(x * error)
+    db = (-2/n) * np.sum(error)
+    w -= learning_rate * dw
+    b -= learning_rate * db
+```
 
 ## Prediction Example
 
 After training, you can predict salary for any number of years of experience:
 
 ```python
-from src.linear_regression import predictor
+def predictor(years, w, b):
+    return w * years + b
 
+# Example prediction
 years = 5
 salary = predictor(years, w, b)
-print(f"Predicted Salary for {years} years of experience: ${salary:,.2f}")
+print(f"Predicted Salary: {salary}")
+```
+
+The script also generates a random prediction:
+
+```python
+import random
+
+k = random.randint(1, 20)
+print("Years of Experience:", k)
+print("Predicted Salary:", predictor(k, w, b))
 ```
 
 ### Sample Output
 
 ```
-Years of Experience: 5
-Predicted Salary: $72,000
+   YearsExperience  Salary
+0              1.1   39343
+1              1.3   46205
+2              1.5   37731
+3              2.0   43525
+4              2.2   39891
+
+Trained w: 9449.962321455077 b: 25792.20019866871 MSE: 31635570.303868428
+
+Years of Experience: 7 
+Predicted Salary: 91941.9562502185
 ```
 
 ## Visualization
 
 The project generates a scatter plot showing:
-
 ```python
-import matplotlib.pyplot as plt
-
-plt.scatter(x, y, label='Actual Salaries')
-plt.plot(x, y_pred, color='red', label='Regression Line')
+plt.scatter(x, y)
+plt.plot(x, y_final_pred, color='red')
 plt.xlabel("Years of Experience")
 plt.ylabel("Salary")
-plt.title("Salary vs Experience")
-plt.legend()
 plt.show()
 ```
 
