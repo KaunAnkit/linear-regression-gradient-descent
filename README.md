@@ -184,7 +184,7 @@ Contributions are welcome! Feel free to:
 
 ## Author
 
-**Ankit Kaun** - [KaunAnkit](https://github.com/KaunAnkit)
+**Ankit Jha** - [KaunAnkit](https://github.com/KaunAnkit)
 
 ---
 
