@@ -1,296 +1,191 @@
-# linear-regression-gradient-descent
+# Salary Predictor using Linear Regression (Gradient Descent)
 
-Salary Predictor using Linear Regression (Gradient Descent)
-Table of Contents
+A machine learning project that predicts employee salaries based on years of experience using Linear Regression implemented from scratch with Gradient Descent.
 
-Project Overview
+![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-Dataset
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Dataset](#dataset)
+- [Features](#features)
+- [Installation](#installation)
+- [How to Run](#how-to-run)
+- [Folder Structure](#folder-structure)
+- [Implementation Details](#implementation-details)
+- [Prediction Example](#prediction-example)
+- [Visualization](#visualization)
+- [License](#license)
 
-Features
+## Project Overview
 
-Installation
+This project implements a Linear Regression model from scratch using Gradient Descent to predict an employee's salary based on years of experience. It demonstrates the fundamentals of machine learning model training, error calculation, and predictions without relying on high-level libraries for training.
 
-How to Run
+## Dataset
 
-Folder Structure
+The dataset used is `Salary_dataset.csv`, which contains two columns:
 
-Implementation Details
+1. **YearsExperience** – Number of years of experience of an employee
+2. **Salary** – Corresponding salary of the employee
 
-Prediction Example
+### Sample Data
 
-Visualization
+| YearsExperience | Salary |
+|----------------|--------|
+| 1.1            | 39343  |
+| 1.3            | 46205  |
+| 1.5            | 37731  |
+| 2.0            | 43525  |
+| 2.2            | 39891  |
 
-License
+## Features
 
-Project Overview
+- ✅ Train Linear Regression using Gradient Descent from scratch
+- ✅ Predict salary for any given years of experience
+- ✅ Visualize results with scatter plots and regression line
+- ✅ Calculate Mean Squared Error (MSE) for model evaluation
+- ✅ No dependency on high-level ML libraries for training
 
-This project implements a Linear Regression model from scratch using Gradient Descent to predict an employee's salary based on years of experience.
-It demonstrates the basics of machine learning model training, error calculation, and predictions without relying on high-level libraries for training.
+## Installation
 
-Dataset
+### 1. Clone the repository
 
-The dataset used is Salary_dataset.csv, which contains two columns:
-
-YearsExperience – number of years of experience of an employee
-
-Salary – corresponding salary of the employee
-
-Example of the dataset:
-
-YearsExperience	Salary
-1.1	39343
-1.3	46205
-1.5	37731
-2.0	43525
-2.2	39891
-Features
-
-Train Linear Regression using Gradient Descent
-
-Predict salary for any given years of experience
-
-Visualize results with scatter plots and regression line
-
-Calculate Mean Squared Error (MSE)
-
-Installation
-
-Clone the repository:
-
+```bash
 git clone https://github.com/KaunAnkit/linear-regression-gradient-descent.git
 cd linear-regression-gradient-descent
+```
 
+### 2. Install dependencies
 
-Install dependencies:
-
+```bash
 pip install -r requirements.txt
+```
 
+### Dependencies
 
-Dependencies:
+- `numpy` - For numerical computations
+- `pandas` - For data manipulation
+- `matplotlib` - For data visualization
+- `scikit-learn` - For data preprocessing
 
-numpy
-
-pandas
-
-matplotlib
-
-scikit-learn
-
-How to Run
+## How to Run
 
 Run the main script:
 
+```bash
 python src/linear_regression.py
+```
 
+### What happens when you run:
 
-This will:
+1. ✅ Loads and preprocesses the dataset
+2. ✅ Trains the model using gradient descent
+3. ✅ Plots the regression line over actual data
+4. ✅ Prints the Mean Squared Error (MSE)
+5. ✅ Predicts salary for sample years of experience
 
-Train the model using gradient descent
+## Folder Structure
 
-Plot the regression line
-
-Print the Mean Squared Error (MSE)
-
-Predict salary for a random year of experience
-
-Folder Structure
+```
 Salary-Predictor/
 │
 ├── data/
-│   └── Salary_dataset.csv       # Dataset
+│   └── Salary_dataset.csv       # Dataset containing experience and salary data
 │
 ├── src/
-│   └── linear_regression.py     # Main Python script
+│   └── linear_regression.py     # Main Python script with model implementation
 │
-├── README.md                    # Project documentation
+├── README.md                    # Project documentation (this file)
 ├── requirements.txt             # Python dependencies
-└── .gitignore                   # Files/folders to ignore
+└── .gitignore                   # Files/folders to ignore in git
+```
 
-Implementation Details
+## Implementation Details
 
-Gradient Descent Formula:
+### Gradient Descent Formula
 
-𝑤
-:
-=
-𝑤
-−
-𝛼
-2
-𝑛
-∑
-𝑖
-=
-1
-𝑛
-𝑥
-𝑖
-(
-𝑦
-𝑖
-−
-(
-𝑤
-𝑥
-𝑖
-+
-𝑏
-)
-)
-w:=w−α
-n
-2
-	​
+The model parameters are updated using the following formulas:
 
-i=1
-∑
-n
-	​
+**Weight Update:**
+```
+w := w - α * (2/n) * Σ[xi * (yi - (w*xi + b))]
+```
 
-x
-i
-	​
+**Bias Update:**
+```
+b := b - α * (2/n) * Σ[(yi - (w*xi + b))]
+```
 
-(y
-i
-	​
+Where:
+- `w` – weight (slope of the regression line)
+- `b` – bias (y-intercept)
+- `α` – learning rate (step size for gradient descent)
+- `n` – number of training samples
+- `xi` – input feature (years of experience)
+- `yi` – actual output (salary)
 
-−(wx
-i
-	​
+### Mean Squared Error (MSE)
 
-+b))
-𝑏
-:
-=
-𝑏
-−
-𝛼
-2
-𝑛
-∑
-𝑖
-=
-1
-𝑛
-(
-𝑦
-𝑖
-−
-(
-𝑤
-𝑥
-𝑖
-+
-𝑏
-)
-)
-b:=b−α
-n
-2
-	​
+The model's performance is evaluated using MSE:
 
-i=1
-∑
-n
-	​
+```
+MSE = (1/n) * Σ(yi - ŷi)²
+```
 
-(y
-i
-	​
+Where `ŷi` is the predicted value.
 
-−(wx
-i
-	​
+## Prediction Example
 
-+b))
+After training, you can predict salary for any number of years of experience:
 
-w – weight (slope)
-
-b – bias (intercept)
-
-α – learning rate
-
-n – number of samples
-
-Mean Squared Error (MSE) is used to evaluate the model:
-
-𝑀
-𝑆
-𝐸
-=
-1
-𝑛
-∑
-𝑖
-=
-1
-𝑛
-(
-𝑦
-𝑖
-−
-𝑦
-𝑖
-^
-)
-2
-MSE=
-n
-1
-	​
-
-i=1
-∑
-n
-	​
-
-(y
-i
-	​
-
-−
-y
-i
-	​
-
-^
-	​
-
-)
-2
-Prediction Example
-
-After training, you can predict a salary for any number of years of experience:
-
+```python
 from src.linear_regression import predictor
 
 years = 5
 salary = predictor(years, w, b)
-print(f"Predicted Salary for {years} years of experience: {salary}")
+print(f"Predicted Salary for {years} years of experience: ${salary:,.2f}")
+```
 
+### Sample Output
 
-Sample output:
-
+```
 Years of Experience: 5
-Predicted Salary: 72000
+Predicted Salary: $72,000
+```
 
-Visualization
+## Visualization
 
-The project also plots a scatter plot of actual salaries and the regression line:
+The project generates a scatter plot showing:
 
-Blue dots – actual salaries
+```python
+import matplotlib.pyplot as plt
 
-Red line – predicted salaries by the model
-
-plt.scatter(x, y)
-plt.plot(x, y_final_pred, color='red')
+plt.scatter(x, y, label='Actual Salaries')
+plt.plot(x, y_pred, color='red', label='Regression Line')
 plt.xlabel("Years of Experience")
 plt.ylabel("Salary")
+plt.title("Salary vs Experience")
+plt.legend()
 plt.show()
+```
 
-License
+## License
 
-This project is open-source and free to use. You can modify and distribute it under the MIT License
-.
+This project is open-source and available under the [MIT License](LICENSE). Feel free to modify and distribute it.
+
+---
+
+## Contributing
+
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest new features
+- Submit pull requests
+
+## Author
+
+**Ankit Kaun** - [KaunAnkit](https://github.com/KaunAnkit)
+
+---
+
+⭐ If you found this project helpful, please consider giving it a star on GitHub!
